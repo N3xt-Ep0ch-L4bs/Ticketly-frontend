@@ -3,7 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import LandingPage from './pages/landingPage';
 import Dashboard from "./pages/dashboard"
 import Navbar from './components/navbar';
-import Footer from './components/footer'
+import Footer from './components/footer';
+import UploadRaffle from "./pages/UploadRaffle";
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/prize-setup" element={<UploadRaffle />} /> 
       </Routes>
       <Footer />
     </div>

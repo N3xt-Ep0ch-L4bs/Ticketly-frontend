@@ -154,7 +154,7 @@ color: ghostwhite;
 }
 
 .raffles-page {
-  background: #070f34;
+  background: #000943;
   min-height: 100vh;
   color: white;
   padding: 30px;
@@ -209,4 +209,116 @@ color: ghostwhite;
 
 .header p {
     font-size: 0.9rem;
+}
+
+.prize-setup-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #02123a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.prize-card {
+  background: #0b1a3a;
+  width: 600px;
+  padding: 30px;
+  border-radius: 15px;
+  color: #fff;
+  text-align: center;
+}
+
+.prize-title {
+  margin-bottom: 5px;
+  font-size: 24px;
+}
+
+.prize-subtitle {
+  font-size: 14px;
+  color: #cccccc;
+  margin-bottom: 25px;
+}
+
+.upload-section {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.upload-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+  border: 2px dashed #374a7a;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  background: #0d2752;
+}
+
+.upload-placeholder {
+  color: #aab4d4;
+}
+
+.browse-btn {
+  padding: 8px 16px;
+  border: none;
+  background: #3f65ff;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.form-group {
+  text-align: left;
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 6px;
+  color: #d1d5e0;
+  font-size: 14px;
+}
+
+.input-field,
+.textarea-field,
+.select-field {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #1a2c52;
+  color: #fff;
+  font-size: 14px;
+}
+
+.textarea-field {
+  height: 100px;
+  resize: none;
+}
+
+.next-btn {
+  width: 100%;
+  padding: 12px;
+  background: #3f65ff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  margin-top: 10px;
+}
+
+.next-btn:hover {
+  opacity: 0.9;
 }

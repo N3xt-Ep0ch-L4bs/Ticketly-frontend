@@ -1,61 +1,75 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import "./pages.css";
 
- function UploadRaffle() {
-  const [title, setTitle] = useState("");
-  const [image, setImage] = useState("");
-  const [description, setDescription] = useState("");
+const UploadRaffle = () => {
+  const [image, setImage] = useState(null);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log({ title, image, description });
-    alert("Raffle created! (Next step: connect to backend or state)");
+  const handleImageUpload = (e) => {
+    setImage(e.target.files[0]);
   };
 
   return (
-    <div className="p-6 max-w-md mx-auto">
-      <h2 className="text-2xl font-bold mb-4">Create New Raffle</h2>
-      <form onSubmit={handleSubmit} className="space-y-4">
-        
-        <div>
-          <label className="block mb-1">Title</label>
+    <div className="prize-setup-container">
+      <div className="prize-card">
+        <h2 className="prize-title">Prize setup</h2>
+        <p className="prize-subtitle">
+          Tell us about the amazing prize you're offering
+        </p>
+
+        <div className="upload-section">
+          <label className="upload-box">
+            {image ? (
+              <img
+                src={URL.createObjectURL(image)}
+                alt="Preview"
+                className="preview-image"
+              />
+            ) : (
+              <div className="upload-placeholder">
+                <span className="upload-icon">🖼️</span>
+                <p>Upload Prize Image</p>
+                <small>Drag and drop or click to browse</small>
+              </div>
+            )}
+            <input type="file" onChange={handleImageUpload} hidden />
+          </label>
+          {!image && (
+            <button className="browse-btn">Browse files</button>
+          )}
+        </div>
+
+        <div className="form-group">
+          <label>Define your prize</label>
           <input
             type="text"
-            className="w-full p-2 border rounded"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            required
+            placeholder="Define your prize"
+            className="input-field"
           />
         </div>
 
-        <div>
-          <label className="block mb-1">Image URL</label>
-          <input
-            type="text"
-            className="w-full p-2 border rounded"
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            required
-          />
-        </div>
-
-        <div>
-          <label className="block mb-1">Description</label>
+        <div className="form-group">
+          <label>Prize Description</label>
           <textarea
-            className="w-full p-2 border rounded"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
+            className="textarea-field"
+            placeholder="Describe what makes this prize special"
           ></textarea>
         </div>
 
-        <button
-          type="submit"
-          className="bg-blue-600 text-white px-4 py-2 rounded"
-        >
-          Upload Raffle
-        </button>
-      </form>
+
+        <div className="form-group">
+          <label>Prize type</label>
+          <select className="select-field">
+            <option>Select a prize type</option>
+            <option>Physical</option>
+            <option>Digital</option>
+            <option>Service</option>
+          </select>
+        </div>
+
+        <button className="next-btn">Next step →</button>
+      </div>
     </div>
   );
-}
-export default UploadRaffle
+};
+
+export default UploadRaffle;

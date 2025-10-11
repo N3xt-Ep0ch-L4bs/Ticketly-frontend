@@ -5,7 +5,7 @@ const raffles = [
   {
     id: 1,
     title: "Luxury Watch",
-    img: "/watch.jpg",
+    img: "src/assets/watch.png",
     price: "0.5 SUI",
     time: "14h 18m",
     participants: 109,
@@ -14,7 +14,7 @@ const raffles = [
   {
     id: 2,
     title: "Gaming PC",
-    img: "/pc.jpg",
+    img: "src/assets/computer.png",
     price: "1.5 SUI",
     time: "Expired",
     participants: 200,
@@ -23,7 +23,7 @@ const raffles = [
   {
     id: 3,
     title: "Luxury Watch",
-    img: "/watch.jpg",
+    img: "src/assets/watch.png",
     price: "0.5 SUI",
     time: "10h 05m",
     participants: 98,
@@ -32,7 +32,7 @@ const raffles = [
   {
     id: 4,
     title: "Gaming PC",
-    img: "/pc.jpg",
+    img: "src/assets/computer.png",
     price: "1.5 SUI",
     time: "3h 42m",
     participants: 140,
@@ -41,7 +41,7 @@ const raffles = [
   {
     id: 5,
     title: "Luxury Watch",
-    img: "/watch.jpg",
+    img: "src/assets/watch.png",
     price: "0.5 SUI",
     time: "7h 30m",
     participants: 89,
@@ -50,11 +50,29 @@ const raffles = [
   {
     id: 6,
     title: "Gaming PC",
-    img: "/pc.jpg",
+    img: "src/assets/computer.png",
     price: "1.5 SUI",
     time: "Expired",
     participants: 200,
     status: "Check winner",
+  },
+  {
+    id: 7,
+    title: "Luxury Watch",
+    img: "src/assets/watch.png",
+    price: "2.5 SUI",
+    time: "Expired",
+    participants: 100,
+    status: "Check winner",
+  },
+  {
+    id: 8,
+    title: "Gaming PC",
+    img: "src/assets/computer.png",
+    price: "3.5 SUI",
+    time: "4h 25min",
+    participants: 150,
+    status: "Enter Raffle",
   },
 ];
 

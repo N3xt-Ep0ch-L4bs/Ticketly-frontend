@@ -28,4 +28,4 @@ import "../App.css";
     </div>
   );
 }
-export default RaffleCard
+export default RaffleCard;
