@@ -10,9 +10,9 @@ function Navbar() {
       <p>Ticketly</p>
       </div>
       <nav className="nav-links">
-        <a href="">Home</a>
-        <a href="">Raffles</a>
-        <a href="">FAQ</a>
+        <a href="/">Home</a>
+        <a href="/dashboard">Raffles</a>
+        <a href="faq">FAQ</a>
       </nav>
       <button className="wallet-btn">Connect Wallet</button>
     </div>

@@ -1,4 +1,4 @@
-import '../App.css'
+import './pages.css'
 
 function LandingPage() {
     return (
@@ -59,14 +59,6 @@ function LandingPage() {
       <p>The next winner could be you. Dive into the world of decentralzed raffles and explore our active listings.</p>
       <button className="cta-btn">Explore Raffles Now</button>
     </section>
-    <footer className="footer">
-      <div className="footer-links">
-      <a href="">Terms of Service</a>
-      <a href="">Privacy Policy</a>
-      <a href="">Contact</a>
-      </div>
-      <p>&copy; 2025 Ticketly All Rights Reserved</p>
-    </footer>
         </>
     )
 }
