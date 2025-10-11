@@ -1,4 +1,5 @@
 import './pages.css'
+import RaffleGrid from '../components/rafflegrid'
 
 function Dashboard() {
     return (
@@ -18,6 +19,7 @@ function Dashboard() {
         <button className="sort-btn">Sort by: Ending soon</button>
       </div>
     </div>
+    <RaffleGrid />
         </>
     )
 }
