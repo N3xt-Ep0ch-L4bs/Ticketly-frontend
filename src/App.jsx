@@ -15,7 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
-        <Route path="/prize-setup" element={<UploadRaffle />} /> 
+        <Route path="/UploadRaffle" element={<UploadRaffle />} /> 
       </Routes>
       <Footer />
     </div>
