@@ -1,5 +1,6 @@
 import "./pages.css";
 import RaffleGrid from '../components/rafflegrid';
+import Footer from '../components/footer'
 
 
 function Dashboard() {
@@ -22,7 +23,7 @@ function Dashboard() {
       </div> 
        <RaffleGrid />
     </div>
-
+    <Footer />
         </>
     )
 }

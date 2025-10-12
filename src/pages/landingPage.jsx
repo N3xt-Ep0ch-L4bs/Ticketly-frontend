@@ -1,4 +1,6 @@
 import './pages.css'
+import '../app.css'
+import Footer from '../components/footer'
 
 function LandingPage() {
     return (
@@ -59,6 +61,7 @@ function LandingPage() {
       <p>The next winner could be you. Dive into the world of decentralzed raffles and explore our active listings.</p>
       <button className="cta-btn">Explore Raffles Now</button>
     </section>
+    <Footer />
         </>
     )
 }
