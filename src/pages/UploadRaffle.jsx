@@ -100,7 +100,7 @@ const UploadRaffle = () => {
             </select>
           </div>
 
-          <button className="next-btn" onClick={handleNext}>
+          <button className="next" onClick={handleNext}>
             Next step →
           </button>
         </div>
@@ -190,8 +190,11 @@ const UploadRaffle = () => {
 
       {/* ✅ STEP 4: Review & Confirm */}
       {step === 4 && (
-        <div className="prize-card">
+        <div className="review-card">
+          <div lassName="prize-title">
           <h2 className="prize-title">Review & Confirm</h2>
+          <p>Double check the below before creating your raffle</p>
+          </div>
           <div className="review-section">
             {raffleData.image && (
               <img
@@ -200,6 +203,7 @@ const UploadRaffle = () => {
                 className="preview-image"
               />
             )}
+            <div className="review-p">
             <p><strong>Prize:</strong> {raffleData.title}</p>
             <p><strong>Description:</strong> {raffleData.description}</p>
             <p><strong>Type:</strong> {raffleData.type}</p>
@@ -209,11 +213,18 @@ const UploadRaffle = () => {
             <p><strong>Start Date:</strong> {raffleData.startDate}</p>
             <p><strong>End Date:</strong> {raffleData.endDate}</p>
           </div>
+          </div>
 
           <div className="nav-buttons">
             <button onClick={handleBack} className="back-btn">← Back</button>
-            <button className="next-btn">Create Raffle ✅</button>
+            <button className="next-btn">Create Raffle </button>
           </div>
+        </div>
+      )}
+
+      {step === 5 && (
+        <div className="">
+
         </div>
       )}
     </div>
