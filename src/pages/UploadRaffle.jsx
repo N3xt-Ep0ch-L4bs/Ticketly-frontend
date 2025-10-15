@@ -217,15 +217,25 @@ const UploadRaffle = () => {
 
           <div className="nav-buttons">
             <button onClick={handleBack} className="back-btn">← Back</button>
-            <button className="next-btn">Create Raffle </button>
+            <button onClick={handleNext} className="next-btn">Create Raffle </button>
           </div>
         </div>
       )}
 
       {step === 5 && (
-        <div className="">
-
+        <div className="congratulations-card">
+          <div className="congratulations-title">
+            <img src="src/assets/🎉.png" />
+            <h2>Your Raffle is live</h2>
         </div>
+        <div className="congratulation-btn">
+          <button className="share-btn">
+            <img src="src/assets/share.png" /> Share Raffle
+          </button>
+          <button className="view-btn"><img src="src/assets/eye.png" />View Raffle</button>
+          <button className="backto-btn"><img src="src/assets/home.png" />Back to Dashboard</button>
+        </div>
+      </div>
       )}
     </div>
   );
