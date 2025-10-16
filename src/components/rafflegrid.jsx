@@ -1,5 +1,6 @@
 import RaffleCard from "./rafflecard";
 import "../App.css";
+import { Link } from "react-router-dom";
 
 const raffles = [
   {
@@ -76,11 +77,20 @@ const raffles = [
   },
 ];
 
-export default function RaffleGrid() {
+export default function RaffleGrid({ onSelect }) {
   return (
     <div className="raffle-grid">
       {raffles.map((raffle) => (
-        <RaffleCard key={raffle.id} raffle={raffle} />
+        <Link to="/raffle/123">
+        <div
+          key={raffle.id}
+          className="raffle-card-wrapper"
+          onClick={() => onSelect?.(raffle)} 
+          style={{ cursor: "pointer" }}
+        >
+          <RaffleCard raffle={raffle} />
+        </div>
+      </Link>
       ))}
     </div>
   );

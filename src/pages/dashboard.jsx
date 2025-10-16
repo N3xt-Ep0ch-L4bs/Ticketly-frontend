@@ -1,4 +1,5 @@
 import "./pages.css";
+import SingleRaffle from "./SingleRaffle";
 import RaffleGrid from '../components/rafflegrid';
 import Footer from '../components/footer'
 
@@ -22,7 +23,8 @@ function Dashboard() {
         <button className="filter-btn">Filter</button>
         <button className="sort-btn">Sort by: Ending soon</button>
       </div> 
-       <RaffleGrid />
+       <RaffleGrid onSelect={(raffle) => setSelectedRaffle(raffle)} />
+
     </div>
     <Footer />
         </>
