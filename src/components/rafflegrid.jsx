@@ -1,9 +1,11 @@
+import React from "react";
+import { Link } from "react-router-dom";
 import RaffleCard from "./rafflecard";
 import "../App.css";
-import { Link } from "react-router-dom";
 
-const raffles = [
-  {
+export default function RaffleGrid() {
+  const raffles = [
+    {
     id: 1,
     title: "Luxury Watch",
     img: "src/assets/watch.png",
@@ -75,23 +77,27 @@ const raffles = [
     participants: 150,
     status: "Enter Raffle",
   },
-];
+  ];
 
-export default function RaffleGrid({ onSelect }) {
   return (
     <div className="raffle-grid">
       {raffles.map((raffle) => (
-        <Link to="/raffle/123">
-        <div
+        <Link
           key={raffle.id}
-          className="raffle-card-wrapper"
-          onClick={() => onSelect?.(raffle)} 
-          style={{ cursor: "pointer" }}
+          to={`/raffle/${raffle.id}`}
+          state={{ raffle }} // ✅ passes data to the next page
+          className="raffle-card-link"
         >
           <RaffleCard raffle={raffle} />
-        </div>
-      </Link>
+        </Link>
       ))}
     </div>
   );
 }
+
+
+
+
+
+
+ 

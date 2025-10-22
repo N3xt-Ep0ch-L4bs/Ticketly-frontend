@@ -158,7 +158,6 @@ color: ghostwhite;
 .header {
   justify-content: space-between;
   text-align: center;
-  margin-bottom: 20px;
   display: flex;
 }
 
@@ -169,8 +168,8 @@ color: ghostwhite;
 }
 
 .create-btn {
-   background: linear-gradient(96.56deg, #9A61FD -34.23%, #3886AC 108.4%);
-  border: 1px solid #9b8dff;
+  background: linear-gradient(96.56deg, #9A61FD -34.23%, #3886AC 108.4%);
+  border: 2px solid linear-gradient(265.64deg, #B083FF 1.86%, #FFD700 98.65%);
   padding: 10px 18px;
   border-radius: 10px;
   font-weight: bold;
@@ -180,9 +179,13 @@ color: ghostwhite;
 
 .controls {
   display: flex;
-  gap: 15px;
-  justify-content: center;
+  justify-content: space-between;
   margin-bottom: 30px;
+}
+
+.controls-filter {
+  display: flex;
+  gap: 15px;
 }
 
 .search-input {
@@ -507,3 +510,141 @@ color: ghostwhite;
   background: #202D7D;
   color: #fff;
 }
+
+/* Responsive design for tablets and phones */
+@media (max-width: 768px) {
+  .hero {
+    padding: 60px 15px;
+  }
+
+  .hero h2 {
+    font-size: 32px;
+  }
+
+  .hero p {
+    font-size: 16px;
+    max-width: 90%;
+  }
+
+  .cta-btn {
+    padding: 10px 18px;
+    font-size: 0.9rem;
+  }
+
+  .why h2,
+  .steps h3,
+  .cta h2 {
+    font-size: 24px;
+  }
+
+  .controls {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .controls-filter {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .search-input {
+    width: 90%;
+  }
+
+  .review-card,
+  .prize-card,
+  .congratulations-card {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .review-section {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .review-p {
+    margin-left: 0;
+    margin-top: 10px;
+  }
+}
+
+/* Even smaller screens like phones */
+@media (max-width: 430px) {
+  .hero h2 {
+    font-size: 26px;
+  }
+
+  .hero p {
+    font-size: 14px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .header h1 {
+    font-size: 1rem;
+  }
+
+  .share-btn,
+  .view-btn,
+  .backto-btn {
+    width: 90%;
+    padding: 10px;
+    justify-content: center;
+  }
+}
+
+.expanded-section {
+  margin-top: 30px;
+  animation: expandIn 0.4s ease forwards;
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.single-raffle-card {
+  background: #0d1745;
+  color: #fff;
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.raffle-image {
+  width: 250px;
+  border-radius: 12px;
+}
+
+.close-btn {
+  float: right;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.countdown {
+  font-weight: 500;
+  margin-top: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  display: inline-block;
+}
+
+

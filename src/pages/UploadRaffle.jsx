@@ -1,24 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import html2canvas from "html2canvas";
 import "./pages.css";
 
 const UploadRaffle = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState(1);
 
-const [raffleData, setRaffleData] = useState({
-  image: null,
-  title: "",
-  description: "",
-  type: "",
-  ticketPrice: "",
-  maxTickets: "",
-  maxPerWallet: "",
-  startDate: "",
-  startTime: "",
-  endDate: "",
-  endTime: "",
-});
-
+  const [raffleData, setRaffleData] = useState({
+    image: null,
+    title: "",
+    description: "",
+    type: "",
+    ticketPrice: "",
+    maxTickets: "",
+    maxPerWallet: "",
+    startDate: "",
+    startTime: "",
+    endDate: "",
+    endTime: "",
+  });
 
   const handleNext = () => setStep(step + 1);
   const handleBack = () => setStep(step - 1);
@@ -43,49 +44,59 @@ const [raffleData, setRaffleData] = useState({
     link.click();
   };
 
- const calculateTimeLeft = () => {
-  if (!raffleData.startDate || !raffleData.endDate) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0, message: "Set dates to start countdown" };
-  }
+  const handleViewRaffle = () => {
+    // Save raffle data temporarily for SingleRaffle page
+    const raffleForStorage = {
+      ...raffleData,
+      image: raffleData.image ? URL.createObjectURL(raffleData.image) : null,
+    };
+    localStorage.setItem("raffleData", JSON.stringify(raffleForStorage));
+    navigate(`/raffle/${raffleData.title || "new-raffle"}`, { state: { raffle: raffleData } });
+  };
 
-  const startDateTime = new Date(`${raffleData.startDate}T${raffleData.startTime || "00:00"}`);
-  const endDateTime = new Date(`${raffleData.endDate}T${raffleData.endTime || "00:00"}`);
-  const now = new Date();
+  const calculateTimeLeft = () => {
+    if (!raffleData.startDate || !raffleData.endDate) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0, message: "Set dates to start countdown" };
+    }
 
-  if (now < startDateTime) {
-    const difference = startDateTime - now;
+    const startDateTime = new Date(`${raffleData.startDate}T${raffleData.startTime || "00:00"}`);
+    const endDateTime = new Date(`${raffleData.endDate}T${raffleData.endTime || "00:00"}`);
+    const now = new Date();
+
+    if (now < startDateTime) {
+      const difference = startDateTime - now;
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / (1000 * 60)) % 60),
+        seconds: Math.floor((difference / 1000) % 60),
+        message: "Raffle has not started yet",
+      };
+    }
+
+    if (now > endDateTime) {
+      return { days: 0, hours: 0, minutes: 0, seconds: 0, message: "Raffle ended" };
+    }
+
+    const difference = endDateTime - now;
     return {
       days: Math.floor(difference / (1000 * 60 * 60 * 24)),
       hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
       minutes: Math.floor((difference / (1000 * 60)) % 60),
       seconds: Math.floor((difference / 1000) % 60),
-      message: "Raffle has not started yet",
+      message: "Raffle running",
     };
-  }
-
-  if (now > endDateTime) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0, message: "Raffle ended" };
-  }
-
-  const difference = endDateTime - now;
-  return {
-    days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-    hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-    minutes: Math.floor((difference / (1000 * 60)) % 60),
-    seconds: Math.floor((difference / 1000) % 60),
-    message: "Raffle running",
   };
-};
 
-const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
-useEffect(() => {
-  const timer = setInterval(() => {
-    setTimeLeft(calculateTimeLeft());
-  }, 1000);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
 
-  return () => clearInterval(timer);
-}, [raffleData]);
+    return () => clearInterval(timer);
+  }, [raffleData]);
 
   return (
     <div className="prize-setup-container">
@@ -208,71 +219,67 @@ useEffect(() => {
         </div>
       )}
 
+      {/* STEP 3 */}
       {step === 3 && (
-  <div className="prize-card">
-    <h2 className="prize-title">Raffle Duration</h2>
+        <div className="prize-card">
+          <h2 className="prize-title">Raffle Duration</h2>
 
-    {/* Countdown */}
-    
-    {/* Start Date & Time */}
-    <div className="form-group">
-      <label>Start Date</label>
-      <input
-        type="date"
-        name="startDate"
-        className="input-field"
-        value={raffleData.startDate}
-        onChange={handleChange}
-      />
-      <label>Start Time</label>
-      <input
-        type="time"
-        name="startTime"
-        className="input-field"
-        value={raffleData.startTime}
-        onChange={handleChange}
-      />
-    </div>
+          <div className="form-group">
+            <label>Start Date</label>
+            <input
+              type="date"
+              name="startDate"
+              className="input-field"
+              value={raffleData.startDate}
+              onChange={handleChange}
+            />
+            <label>Start Time</label>
+            <input
+              type="time"
+              name="startTime"
+              className="input-field"
+              value={raffleData.startTime}
+              onChange={handleChange}
+            />
+          </div>
 
-    {/* End Date & Time */}
-    <div className="form-group">
-      <label>End Date</label>
-      <input
-        type="date"
-        name="endDate"
-        className="input-field"
-        value={raffleData.endDate}
-        onChange={handleChange}
-      />
-      <label>End Time</label>
-      <input
-        type="time"
-        name="endTime"
-        className="input-field"
-        value={raffleData.endTime}
-        onChange={handleChange}
-      />
-    </div>
-    {raffleData.endDate && (
-      <div className="countdown">
-        {timeLeft.message && <p>{timeLeft.message}</p>}
-        <span>{timeLeft.days}d </span>
-        <span>{timeLeft.hours}h </span>
-        <span>{timeLeft.minutes}m </span>
-        <span>{timeLeft.seconds}s</span>
-      </div>
-    )}
+          <div className="form-group">
+            <label>End Date</label>
+            <input
+              type="date"
+              name="endDate"
+              className="input-field"
+              value={raffleData.endDate}
+              onChange={handleChange}
+            />
+            <label>End Time</label>
+            <input
+              type="time"
+              name="endTime"
+              className="input-field"
+              value={raffleData.endTime}
+              onChange={handleChange}
+            />
+          </div>
 
+          {raffleData.endDate && (
+            <div className="countdown">
+              {timeLeft.message && <p>{timeLeft.message}</p>}
+              <span>{timeLeft.days}d </span>
+              <span>{timeLeft.hours}h </span>
+              <span>{timeLeft.minutes}m </span>
+              <span>{timeLeft.seconds}s</span>
+            </div>
+          )}
 
-    <div className="nav-buttons">
-      <button onClick={handleBack} className="back-btn">← Back</button>
-      <button onClick={handleNext} className="next-btn">Review →</button>
-    </div>
-  </div>
-)}
+          <div className="nav-buttons">
+            <button onClick={handleBack} className="back-btn">← Back</button>
+            <button onClick={handleNext} className="next-btn">Review →</button>
+          </div>
+        </div>
+      )}
 
-
-      {/* STEP 4 & 5 REMAIN THE SAME */}
+      {/* STEP 4: Review */}
       {step === 4 && (
         <div className="review-card" ref={reviewRef}>
           <div className="prize-title">
@@ -301,23 +308,28 @@ useEffect(() => {
 
           <div className="nav-buttons">
             <button onClick={handleBack} className="back-btn">← Back</button>
-            <button onClick={handleNext} className="next-btn">Create Raffle </button>
+            <button onClick={handleNext} className="next-btn">Create Raffle</button>
           </div>
         </div>
       )}
 
+      {/* STEP 5: Success */}
       {step === 5 && (
         <div className="congratulations-card">
           <div className="congratulations-title">
-            <img src="src/assets/🎉.png" />
+            <img src="src/assets/🎉.png" alt="celebrate" />
             <h2>Your Raffle is live</h2>
           </div>
           <div className="congratulation-btn">
             <button className="share-btn" onClick={handleShare}>
-              <img src="src/assets/share.png" /> Share Raffle
+              <img src="src/assets/share.png" alt="share" /> Share Raffle
             </button>
-            <button className="view-btn"><img src="src/assets/eye.png" />View Raffle</button>
-            <button className="backto-btn"><img src="src/assets/home.png" />Back to Dashboard</button>
+            <button className="view-btn" onClick={handleViewRaffle}>
+              <img src="src/assets/eye.png" alt="view" /> View Raffle
+            </button>
+            <button className="backto-btn">
+              <img src="src/assets/home.png" alt="home" /> Back to Dashboard
+            </button>
           </div>
         </div>
       )}

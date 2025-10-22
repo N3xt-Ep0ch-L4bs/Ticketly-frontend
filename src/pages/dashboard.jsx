@@ -1,34 +1,49 @@
+import React, { useState } from "react";
 import "./pages.css";
 import SingleRaffle from "./SingleRaffle";
-import RaffleGrid from '../components/rafflegrid';
-import Footer from '../components/footer'
-
+import RaffleGrid from "../components/rafflegrid";
+import Footer from "../components/footer";
 
 function Dashboard() {
+  const [selectedRaffle, setSelectedRaffle] = useState(null);
 
-    return (
-        <>
-    <div className="raffles-page">
-      <div className="header">
-        <button className="create-btn"onClick={() => window.location.href = "UploadRaffle"}>+ Create new raffle</button>
+  return (
+    <>
+      <div className="raffles-page">
+        <div className="header">
+          <button
+            className="create-btn"
+            onClick={() => (window.location.href = "UploadRaffle")}
+          >
+            + Create new raffle
+          </button>
           <div>
-          <h1>Active raffles</h1>
-          <p>Discover raffles created by the community</p>
+            <h1>Active raffles</h1>
+            <p>Discover raffles created by the community</p>
           </div>
-        <img src="src/assets/notification.png" />
+          <img src="src/assets/notification.png" />
+        </div>
+
+        <div className="controls">
+          <input placeholder="Search Raffles" className="search-input" />
+          <div className="controls-filter">
+            <button className="filter-btn">Filter</button>
+            <button className="sort-btn">Sort by: Ending soon</button>
+          </div>
+        </div>
+
+        <RaffleGrid onSelect={(raffle) => setSelectedRaffle(raffle)} />
+
+        {/* Expanded section */}
+        {selectedRaffle && (
+          <div className="expanded-section">
+            <SingleRaffle raffle={selectedRaffle} onClose={() => setSelectedRaffle(null)} />
+          </div>
+        )}
       </div>
-
-      <div className="controls">
-        <input placeholder="Search Raffles" className="search-input" />
-        <button className="filter-btn">Filter</button>
-        <button className="sort-btn">Sort by: Ending soon</button>
-      </div> 
-       <RaffleGrid onSelect={(raffle) => setSelectedRaffle(raffle)} />
-
-    </div>
-    <Footer />
-        </>
-    )
+      <Footer />
+    </>
+  );
 }
 
-export default Dashboard
+export default Dashboard;
