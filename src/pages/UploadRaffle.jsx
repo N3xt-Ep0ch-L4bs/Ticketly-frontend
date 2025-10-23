@@ -6,9 +6,10 @@ import "./pages.css";
 const UploadRaffle = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const [raffleData, setRaffleData] = useState({
-    image: null,
+    image: "",
     title: "",
     description: "",
     type: "",
@@ -44,14 +45,31 @@ const UploadRaffle = () => {
     link.click();
   };
 
-  const handleViewRaffle = () => {
-    // Save raffle data temporarily for SingleRaffle page
-    const raffleForStorage = {
+  const handleCreateRaffle = (newRaffle) => {
+    const existingRaffles = JSON.parse(localStorage.getItem("raffles")) || [];
+    const updatedRaffles = [...existingRaffles, newRaffle];
+    localStorage.setItem("raffles", JSON.stringify(updatedRaffles));
+  };
+
+  const handleConfirmRaffle = () => {
+    const newRaffle = {
+      id: Date.now(),
       ...raffleData,
-      image: raffleData.image ? URL.createObjectURL(raffleData.image) : null,
+      ticketPrice: parseFloat(raffleData.ticketPrice),
+      maxTickets: parseInt(raffleData.maxTickets),
+      ticketsSold: 0,
+      userTickets: 0,
+      raffleOwner: "@you",
     };
-    localStorage.setItem("raffleData", JSON.stringify(raffleForStorage));
-    navigate(`/raffle/${raffleData.title || "new-raffle"}`, { state: { raffle: raffleData } });
+
+    setIsProcessing(true);
+
+    setTimeout(() => {
+      handleCreateRaffle(newRaffle);
+      setIsProcessing(false);
+
+      setStep(5);
+    }, 2000);
   };
 
   const calculateTimeLeft = () => {
@@ -94,13 +112,29 @@ const UploadRaffle = () => {
     const timer = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
     }, 1000);
-
     return () => clearInterval(timer);
   }, [raffleData]);
 
+  const handleViewRaffle = () => {
+    const savedRaffle = JSON.parse(localStorage.getItem("raffles"))?.slice(-1)[0];
+    if (savedRaffle) {
+      navigate(`/raffle/${savedRaffle.title || "new-raffle"}`, {
+        state: { raffle: savedRaffle },
+      });
+    }
+  };
+
   return (
     <div className="prize-setup-container">
-      {/* STEP 1 */}
+      {isProcessing && (
+        <div className="popup-overlay">
+          <div className="popup-box">
+            <h3>⏳ Processing your raffle...</h3>
+            <p>Please wait a moment.</p>
+          </div>
+        </div>
+      )}
+
       {step === 1 && (
         <div className="prize-card">
           <h2 className="prize-title">Prize setup</h2>
@@ -109,11 +143,7 @@ const UploadRaffle = () => {
           <div className="upload-section">
             <label className="upload-box">
               {raffleData.image ? (
-                <img
-                  src={URL.createObjectURL(raffleData.image)}
-                  alt="Preview"
-                  className="preview-image"
-                />
+                <img src={URL.createObjectURL(raffleData.image)} alt="Preview" className="preview-image" />
               ) : (
                 <div className="upload-placeholder">
                   <span className="upload-icon">
@@ -129,35 +159,17 @@ const UploadRaffle = () => {
 
           <div className="form-group">
             <label>Define your prize</label>
-            <input
-              type="text"
-              name="title"
-              placeholder="Define your prize"
-              className="input-field"
-              value={raffleData.title}
-              onChange={handleChange}
-            />
+            <input type="text" name="title" placeholder="Prize Title" className="input-field" value={raffleData.title} onChange={handleChange} />
           </div>
 
           <div className="form-group">
             <label>Prize Description</label>
-            <textarea
-              name="description"
-              className="textarea-field"
-              placeholder="Describe what makes this prize special"
-              value={raffleData.description}
-              onChange={handleChange}
-            ></textarea>
+            <textarea name="description" className="textarea-field" placeholder="Describe your prize" value={raffleData.description} onChange={handleChange}></textarea>
           </div>
 
           <div className="form-group">
             <label>Prize type</label>
-            <select
-              name="type"
-              className="select-field"
-              value={raffleData.type}
-              onChange={handleChange}
-            >
+            <select name="type" className="select-field" value={raffleData.type} onChange={handleChange}>
               <option value="">Select a prize type</option>
               <option>Physical</option>
               <option>Cash rewards</option>
@@ -165,51 +177,27 @@ const UploadRaffle = () => {
             </select>
           </div>
 
-          <button className="next" onClick={handleNext}>
-            Next step →
-          </button>
+          <button className="next" onClick={handleNext}>Next step →</button>
         </div>
       )}
 
-      {/* STEP 2 */}
       {step === 2 && (
         <div className="prize-card">
           <h2 className="prize-title">Ticket Settings</h2>
 
           <div className="form-group">
             <label>Ticket Price</label>
-            <input
-              type="number"
-              name="ticketPrice"
-              className="input-field"
-              placeholder="Enter ticket price"
-              value={raffleData.ticketPrice}
-              onChange={handleChange}
-            />
+            <input type="number" name="ticketPrice" className="input-field" placeholder="Enter ticket price" value={raffleData.ticketPrice} onChange={handleChange} />
           </div>
 
           <div className="form-group">
             <label>Max Tickets</label>
-            <input
-              type="number"
-              name="maxTickets"
-              className="input-field"
-              placeholder="Enter max tickets"
-              value={raffleData.maxTickets}
-              onChange={handleChange}
-            />
+            <input type="number" name="maxTickets" className="input-field" placeholder="Enter max tickets" value={raffleData.maxTickets} onChange={handleChange} />
           </div>
 
           <div className="form-group">
             <label>Max Tickets Per Wallet</label>
-            <input
-              type="number"
-              name="maxPerWallet"
-              className="input-field"
-              placeholder="Enter max tickets per wallet"
-              value={raffleData.maxPerWallet}
-              onChange={handleChange}
-            />
+            <input type="number" name="maxPerWallet" className="input-field" placeholder="Enter max tickets per wallet" value={raffleData.maxPerWallet} onChange={handleChange} />
           </div>
 
           <div className="nav-buttons">
@@ -219,47 +207,21 @@ const UploadRaffle = () => {
         </div>
       )}
 
-      {/* STEP 3 */}
       {step === 3 && (
         <div className="prize-card">
           <h2 className="prize-title">Raffle Duration</h2>
-
           <div className="form-group">
             <label>Start Date</label>
-            <input
-              type="date"
-              name="startDate"
-              className="input-field"
-              value={raffleData.startDate}
-              onChange={handleChange}
-            />
+            <input type="date" name="startDate" className="input-field" value={raffleData.startDate} onChange={handleChange} />
             <label>Start Time</label>
-            <input
-              type="time"
-              name="startTime"
-              className="input-field"
-              value={raffleData.startTime}
-              onChange={handleChange}
-            />
+            <input type="time" name="startTime" className="input-field" value={raffleData.startTime} onChange={handleChange} />
           </div>
 
           <div className="form-group">
             <label>End Date</label>
-            <input
-              type="date"
-              name="endDate"
-              className="input-field"
-              value={raffleData.endDate}
-              onChange={handleChange}
-            />
+            <input type="date" name="endDate" className="input-field" value={raffleData.endDate} onChange={handleChange} />
             <label>End Time</label>
-            <input
-              type="time"
-              name="endTime"
-              className="input-field"
-              value={raffleData.endTime}
-              onChange={handleChange}
-            />
+            <input type="time" name="endTime" className="input-field" value={raffleData.endTime} onChange={handleChange} />
           </div>
 
           {raffleData.endDate && (
@@ -279,21 +241,12 @@ const UploadRaffle = () => {
         </div>
       )}
 
-      {/* STEP 4: Review */}
       {step === 4 && (
         <div className="review-card" ref={reviewRef}>
-          <div className="prize-title">
-            <h2 className="prize-title">Review & Confirm</h2>
-            <p>Double check the below before creating your raffle</p>
-          </div>
+          <h2 className="prize-title">Review & Confirm</h2>
+          <p>Double check everything before creating your raffle</p>
           <div className="review-section">
-            {raffleData.image && (
-              <img
-                src={URL.createObjectURL(raffleData.image)}
-                alt="Preview"
-                className="preview-image"
-              />
-            )}
+            {raffleData.image && <img src={URL.createObjectURL(raffleData.image)} alt="Preview" className="preview-image" />}
             <div className="review-p">
               <p><strong>Prize:</strong> {raffleData.title}</p>
               <p><strong>Description:</strong> {raffleData.description}</p>
@@ -308,17 +261,16 @@ const UploadRaffle = () => {
 
           <div className="nav-buttons">
             <button onClick={handleBack} className="back-btn">← Back</button>
-            <button onClick={handleNext} className="next-btn">Create Raffle</button>
+            <button onClick={handleConfirmRaffle} className="next-btn">Create Raffle</button>
           </div>
         </div>
       )}
 
-      {/* STEP 5: Success */}
       {step === 5 && (
         <div className="congratulations-card">
           <div className="congratulations-title">
             <img src="src/assets/🎉.png" alt="celebrate" />
-            <h2>Your Raffle is live</h2>
+            <h2>Your Raffle is Live!</h2>
           </div>
           <div className="congratulation-btn">
             <button className="share-btn" onClick={handleShare}>
@@ -327,7 +279,7 @@ const UploadRaffle = () => {
             <button className="view-btn" onClick={handleViewRaffle}>
               <img src="src/assets/eye.png" alt="view" /> View Raffle
             </button>
-            <button className="backto-btn">
+            <button className="backto-btn" onClick={() => navigate("/")}>
               <img src="src/assets/home.png" alt="home" /> Back to Dashboard
             </button>
           </div>
