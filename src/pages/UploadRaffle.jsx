@@ -22,9 +22,37 @@ const UploadRaffle = () => {
     endTime: "",
   });
 
-  const handleNext = () => setStep(step + 1);
-  const handleBack = () => setStep(step - 1);
   const reviewRef = useRef(null);
+
+  // ✅ Step validation
+  const validateStep = () => {
+    if (step === 1) {
+      return (
+        raffleData.image &&
+        raffleData.title.trim() &&
+        raffleData.description.trim() &&
+        raffleData.type
+      );
+    }
+    if (step === 2) {
+      return (
+        raffleData.ticketPrice &&
+        raffleData.maxTickets &&
+        raffleData.maxPerWallet
+      );
+    }
+    if (step === 3) {
+      return raffleData.startDate && raffleData.endDate;
+    }
+    return true;
+  };
+
+  const handleNext = () => {
+    if (!validateStep()) return; // block navigation silently
+    setStep(step + 1);
+  };
+
+  const handleBack = () => setStep(step - 1);
 
   const handleChange = (e) => {
     const { name, value, files } = e.target;
@@ -67,14 +95,19 @@ const UploadRaffle = () => {
     setTimeout(() => {
       handleCreateRaffle(newRaffle);
       setIsProcessing(false);
-
       setStep(5);
     }, 2000);
   };
 
   const calculateTimeLeft = () => {
     if (!raffleData.startDate || !raffleData.endDate) {
-      return { days: 0, hours: 0, minutes: 0, seconds: 0, message: "Set dates to start countdown" };
+      return {
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+        message: "Set dates to start countdown",
+      };
     }
 
     const startDateTime = new Date(`${raffleData.startDate}T${raffleData.startTime || "00:00"}`);
@@ -135,6 +168,7 @@ const UploadRaffle = () => {
         </div>
       )}
 
+      {/* === Step 1 === */}
       {step === 1 && (
         <div className="prize-card">
           <h2 className="prize-title">Prize setup</h2>
@@ -159,17 +193,35 @@ const UploadRaffle = () => {
 
           <div className="form-group">
             <label>Define your prize</label>
-            <input type="text" name="title" placeholder="Prize Title" className="input-field" value={raffleData.title} onChange={handleChange} />
+            <input
+              type="text"
+              name="title"
+              placeholder="Prize Title"
+              className="input-field"
+              value={raffleData.title}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="form-group">
             <label>Prize Description</label>
-            <textarea name="description" className="textarea-field" placeholder="Describe your prize" value={raffleData.description} onChange={handleChange}></textarea>
+            <textarea
+              name="description"
+              className="textarea-field"
+              placeholder="Describe your prize"
+              value={raffleData.description}
+              onChange={handleChange}
+            ></textarea>
           </div>
 
           <div className="form-group">
             <label>Prize type</label>
-            <select name="type" className="select-field" value={raffleData.type} onChange={handleChange}>
+            <select
+              name="type"
+              className="select-field"
+              value={raffleData.type}
+              onChange={handleChange}
+            >
               <option value="">Select a prize type</option>
               <option>Physical</option>
               <option>Cash rewards</option>
@@ -177,36 +229,79 @@ const UploadRaffle = () => {
             </select>
           </div>
 
-          <button className="next" onClick={handleNext}>Next step →</button>
+          <button
+            className="next"
+            onClick={handleNext}
+            disabled={!validateStep()}
+            style={{
+              opacity: validateStep() ? 1 : 0.5,
+              cursor: validateStep() ? "pointer" : "not-allowed",
+            }}
+          >
+            Next step →
+          </button>
         </div>
       )}
 
+      {/* === Step 2 === */}
       {step === 2 && (
         <div className="prize-card">
           <h2 className="prize-title">Ticket Settings</h2>
 
           <div className="form-group">
             <label>Ticket Price</label>
-            <input type="number" name="ticketPrice" className="input-field" placeholder="Enter ticket price" value={raffleData.ticketPrice} onChange={handleChange} />
+            <input
+              type="number"
+              name="ticketPrice"
+              className="input-field"
+              placeholder="Enter ticket price"
+              value={raffleData.ticketPrice}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="form-group">
             <label>Max Tickets</label>
-            <input type="number" name="maxTickets" className="input-field" placeholder="Enter max tickets" value={raffleData.maxTickets} onChange={handleChange} />
+            <input
+              type="number"
+              name="maxTickets"
+              className="input-field"
+              placeholder="Enter max tickets"
+              value={raffleData.maxTickets}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="form-group">
             <label>Max Tickets Per Wallet</label>
-            <input type="number" name="maxPerWallet" className="input-field" placeholder="Enter max tickets per wallet" value={raffleData.maxPerWallet} onChange={handleChange} />
+            <input
+              type="number"
+              name="maxPerWallet"
+              className="input-field"
+              placeholder="Enter max tickets per wallet"
+              value={raffleData.maxPerWallet}
+              onChange={handleChange}
+            />
           </div>
 
           <div className="nav-buttons">
             <button onClick={handleBack} className="back-btn">← Back</button>
-            <button onClick={handleNext} className="next-btn">Next →</button>
+            <button
+              onClick={handleNext}
+              className="next-btn"
+              disabled={!validateStep()}
+              style={{
+                opacity: validateStep() ? 1 : 0.5,
+                cursor: validateStep() ? "pointer" : "not-allowed",
+              }}
+            >
+              Next →
+            </button>
           </div>
         </div>
       )}
 
+      {/* === Step 3 === */}
       {step === 3 && (
         <div className="prize-card">
           <h2 className="prize-title">Raffle Duration</h2>
@@ -236,11 +331,22 @@ const UploadRaffle = () => {
 
           <div className="nav-buttons">
             <button onClick={handleBack} className="back-btn">← Back</button>
-            <button onClick={handleNext} className="next-btn">Review →</button>
+            <button
+              onClick={handleNext}
+              className="next-btn"
+              disabled={!validateStep()}
+              style={{
+                opacity: validateStep() ? 1 : 0.5,
+                cursor: validateStep() ? "pointer" : "not-allowed",
+              }}
+            >
+              Review →
+            </button>
           </div>
         </div>
       )}
 
+      {/* === Step 4 === */}
       {step === 4 && (
         <div className="review-card" ref={reviewRef}>
           <h2 className="prize-title">Review & Confirm</h2>
@@ -266,6 +372,7 @@ const UploadRaffle = () => {
         </div>
       )}
 
+      {/* === Step 5 === */}
       {step === 5 && (
         <div className="congratulations-card">
           <div className="congratulations-title">

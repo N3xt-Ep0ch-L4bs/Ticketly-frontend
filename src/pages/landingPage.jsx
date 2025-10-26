@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import './pages.css'
 import '../app.css'
 import Footer from '../components/footer'
@@ -12,7 +13,9 @@ function LandingPage() {
         <span> to Win,</span>
         <br/><span className="highlight">On Chain.</span></h2>
       <p>Enter raffles, buy tickets, and win exciting prizes<br/>securely powered by Sui blockchain.</p>
-      <button className="cta-btn">View Raffles</button>
+      <Link to="/dashboard">
+        <button className="cta-btn">View Raffles</button>
+      </Link>
     </section>
     <section className="why">
       <h2>Why Ticketly?</h2>
@@ -56,7 +59,8 @@ function LandingPage() {
     <section className="cta">
       <h2>Ready to try your luck?</h2>
       <p>The next winner could be you. Dive into the world of decentralzed raffles and explore our active listings.</p>
-      <button className="cta-btn">Explore Raffles Now</button>
+      <Link to="/dashboard">
+        <button className="cta-btn">Explore Raffles Now</button></Link>
     </section>
         </>
     )

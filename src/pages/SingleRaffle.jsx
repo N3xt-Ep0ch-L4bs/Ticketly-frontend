@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 import "./pages.css";
 import TicketSuccessPopup from "../components/Popup";
@@ -40,7 +40,7 @@ export default function SingleRaffle({ raffle: passedRaffle }) {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [lastBoughtTickets, setLastBoughtTickets] = useState(0);
 
-  // Countdown logic
+  // countdown logic
   useEffect(() => {
     const updateCountdown = () => {
       const now = new Date();
@@ -71,7 +71,7 @@ export default function SingleRaffle({ raffle: passedRaffle }) {
       raffle.maxTickets) *
     100;
 
-  // Buy ticket handler
+  // buy ticket handler
   const handleBuyTicket = () => {
     const quantity = parseInt(ticketQuantity);
     if (quantity <= 0 || quantity > ticketsRemaining) {
@@ -88,9 +88,12 @@ export default function SingleRaffle({ raffle: passedRaffle }) {
     }, 2000);
   };
 
-  // Handle raffle end
+  // ✅ show toast only once when raffle ends
+  const toastShownRef = useRef(false);
+
   useEffect(() => {
-    if (timeLeft.message === "Raffle ended") {
+    if (timeLeft.message === "Raffle ended" && !toastShownRef.current) {
+      toastShownRef.current = true; // mark toast as shown
       toast.success("Raffle has ended!");
 
       const userIsWinner = Math.random() > 0.5; // demo logic
@@ -102,7 +105,7 @@ export default function SingleRaffle({ raffle: passedRaffle }) {
         }
       }, 2000);
     }
-  }, [timeLeft]);
+  }, [timeLeft, navigate, raffle]);
 
   const TimeBox = ({ value, label }) => (
     <div className="time-box">

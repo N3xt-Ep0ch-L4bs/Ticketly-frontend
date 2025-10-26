@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@mysten/dapp-kit": "^0.19.6",
+    "@mysten/sui": "^1.43.1",
+    "@tanstack/react-query": "^5.90.5",
     "html2canvas": "^1.4.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
