@@ -40,17 +40,14 @@ function LandingPage() {
       <p>Your next next big win is just three steps away</p>
       <div className="steps-grid">
         <div className="1">
-          <img src=""/>
           <h4>Browse Raffles</h4>
           <p>Explore a diverse range of active raffles for exclusive digital assets and prizes</p>
         </div>
         <div className="2">
-          <img src=""/>
           <h4>Buy Tickets</h4>
           <p>Securely purchase your tickets. The more you buy, the higher your chances to win.</p>
         </div>
         <div className="3">
-          <img src=""/>
           <h4>Win Prizes</h4>
           <p>Winnners are chosen by a decentralized, on-chain random number generator. Prizes are sent automatically.</p>
         </div>
@@ -61,7 +58,6 @@ function LandingPage() {
       <p>The next winner could be you. Dive into the world of decentralzed raffles and explore our active listings.</p>
       <button className="cta-btn">Explore Raffles Now</button>
     </section>
-    <Footer />
         </>
     )
 }
