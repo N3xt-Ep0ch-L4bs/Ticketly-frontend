@@ -13,17 +13,14 @@ function Navbar() {
           <p>Ticketly</p>
         </div>
 
-        {/* Desktop navigation */}
         <nav className="nav-links">
           <a href="/">Home</a>
           <a href="/dashboard">Raffles</a>
           <a href="/faq">FAQ</a>
         </nav>
 
-        {/* ✅ Official Sui dApp Kit Connect Button (desktop) */}
         <ConnectButton className="wallet-btn" />
 
-        {/* Mobile menu toggle */}
         {!menuOpen && (
           <button
             className="menu-toggle"
@@ -35,13 +32,11 @@ function Navbar() {
         )}
       </header>
 
-      {/* Dark overlay when menu is open */}
       <div
         className={`overlay ${menuOpen ? "visible" : ""}`}
         onClick={() => setMenuOpen(false)}
       />
 
-      {/* Sidebar for mobile view */}
       <aside
         className={`sidebar-menu ${menuOpen ? "open" : ""}`}
         aria-hidden={!menuOpen}
@@ -65,7 +60,6 @@ function Navbar() {
             FAQ
           </a>
 
-          {/* ✅ Connect button for mobile */}
           <div className="mobile-wallet" onClick={() => setMenuOpen(false)}>
             <ConnectButton />
           </div>

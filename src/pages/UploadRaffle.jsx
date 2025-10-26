@@ -24,7 +24,6 @@ const UploadRaffle = () => {
 
   const reviewRef = useRef(null);
 
-  // ✅ Step validation
   const validateStep = () => {
     if (step === 1) {
       return (
