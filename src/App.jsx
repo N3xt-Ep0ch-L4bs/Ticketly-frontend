@@ -6,8 +6,8 @@ import SingleRaffle from "./pages/SingleRaffle";
 import Navbar from './components/navbar';
 import Footer from './components/footer';
 import UploadRaffle from "./pages/UploadRaffle";
-import WinnerPage from "./components/winnerPage"; // ✅ add winner page route
-import LoserPage from "./components/loserPage";   // ✅ add loser page route
+import WinnerPage from "./components/winnerPage"; 
+import LoserPage from "./components/loserPage";   
 import './App.css';
 
 function App() {
@@ -25,7 +25,7 @@ function App() {
       </Routes>
 
       <Footer />
-      <Toaster position="top-right" reverseOrder={false} /> {/* ✅ add toaster */}
+      <Toaster position="top-right" reverseOrder={false} />
     </div>
   );
 }
